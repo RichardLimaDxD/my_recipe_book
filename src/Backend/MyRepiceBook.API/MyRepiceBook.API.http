@@ -1,0 +1,6 @@
+@MyRepiceBook.API_HostAddress = http://localhost:5211
+
+GET {{MyRepiceBook.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
