@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
@@ -9,15 +10,15 @@ namespace MyRecipeBook.Infrastructure
 {
     public static class DependencyInjectionExtension
     {
-        public static void AddInfrastructure(this IServiceCollection services)
+        public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            AddDbContext_SqlServer(services);
+            AddDbContext_SqlServer(services, configuration);
             AddRepositories(services);
         }
 
-        private static void AddDbContext_SqlServer(IServiceCollection services)
+        private static void AddDbContext_SqlServer(IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = "Data Source=EI-DESENV-05; Initial Catalog=myRecipeBookDb;User ID=sa;Password=1234; Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True";
+            string? connectionString = configuration.GetConnectionString("Connection");
 
             services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
             {
