@@ -5,6 +5,7 @@ using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
+using MyRecipeBook.Infrastructure.Extensions;
 
 namespace MyRecipeBook.Infrastructure
 {
@@ -18,7 +19,7 @@ namespace MyRecipeBook.Infrastructure
 
         private static void AddDbContext_SqlServer(IServiceCollection services, IConfiguration configuration)
         {
-            string? connectionString = configuration.GetConnectionString("Connection");
+            string? connectionString = configuration.ConnectionString();
 
             services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
             {
