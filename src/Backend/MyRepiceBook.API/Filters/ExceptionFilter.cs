@@ -24,7 +24,7 @@ namespace MyRepiceBook.API.Filters
                 ErrorOnValidationException? exception = context.Exception as ErrorOnValidationException;
 
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception.ErrorMessages));
+                context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception!.ErrorMessages));
             }
         }
 

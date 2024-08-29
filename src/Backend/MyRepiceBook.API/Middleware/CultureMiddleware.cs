@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using MyRecipeBook.Domain.Extensions;
+using System.Globalization;
 
 namespace MyRepiceBook.API.Middleware
 {
@@ -13,14 +14,14 @@ namespace MyRepiceBook.API.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            CultureInfo[] supportedLangueges = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            var supportedLangueges = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
 
             string? requestedCulture = context.Request.Headers.AcceptLanguage.FirstOrDefault();
 
-            CultureInfo? cultureInfo = new CultureInfo("en");
+            var cultureInfo = new CultureInfo("en");
 
-            if (!string.IsNullOrWhiteSpace(requestedCulture) &&
-                supportedLangueges.Any(culture => culture.Name.Equals(requestedCulture)))
+            if (requestedCulture.NotEmpty() &&
+                supportedLangueges.Exists(culture => culture.Name.Equals(requestedCulture)))
             {
                 cultureInfo = new CultureInfo(requestedCulture);
             }
