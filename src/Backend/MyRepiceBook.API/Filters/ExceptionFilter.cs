@@ -21,6 +21,11 @@ namespace MyRepiceBook.API.Filters
         {
             if (context.Exception is ErrorOnValidationException)
             {
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(context.Exception.Message));
+            }
+            else if (context.Exception is ErrorOnValidationException)
+            {
                 ErrorOnValidationException? exception = context.Exception as ErrorOnValidationException;
 
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
