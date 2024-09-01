@@ -7,7 +7,7 @@ namespace MyRepiceBook.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : MyRecipeBookBaseController
     {
         [HttpPost]
         [ProducesResponseType(typeof(ResponsesRegisteredUserJson), StatusCodes.Status201Created)]

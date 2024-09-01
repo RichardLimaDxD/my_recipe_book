@@ -19,7 +19,7 @@ namespace MyRepiceBook.API.Filters
 
         private void HandleProjectException(ExceptionContext context)
         {
-            if (context.Exception is ErrorOnValidationException)
+            if (context.Exception is InvalidLoginException)
             {
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(context.Exception.Message));
