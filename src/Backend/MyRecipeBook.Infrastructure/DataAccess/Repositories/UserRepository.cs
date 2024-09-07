@@ -4,7 +4,7 @@ using MyRecipeBook.Domain.Repositories.User;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories
 {
-    public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
+    public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
     {
         private readonly MyRecipeBookDbContext _dbContext;
 
@@ -26,5 +26,12 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Active && user.Email.Equals(email) && user.Password.Equals(password));
         }
+
+        public async Task<User> GetById(long id)
+        {
+            return await _dbContext.Users.FirstAsync(user => user.Id == id);
+        }
+
+        public void Update(User user) => _dbContext.Users.Update(user);
     }
 }
