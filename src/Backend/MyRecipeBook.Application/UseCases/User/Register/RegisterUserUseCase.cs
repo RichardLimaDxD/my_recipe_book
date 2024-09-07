@@ -4,6 +4,7 @@ using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
+using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Exceptions;
 using MyRecipeBook.Exceptions.ExceptionsBase;
 
@@ -11,6 +12,7 @@ namespace MyRecipeBook.Application.UseCases.User.Register
 {
     public class RegisterUserUseCase : IRegisterUserUseCase
     {
+        private readonly IAccessTokenGenerator _accessTokenGenerator;
         private readonly IUserWriteOnlyRepository _writeOnlyRepository;
         private readonly IUserReadOnlyRepository _readOnlyRepository;
         private readonly PasswordEncripter _passwordEncripter;
@@ -18,6 +20,7 @@ namespace MyRecipeBook.Application.UseCases.User.Register
         private readonly IMapper _mapper;
 
         public RegisterUserUseCase(
+            IAccessTokenGenerator accessTokenGenerator,
             IUserWriteOnlyRepository writeOnlyRepository,
             IUserReadOnlyRepository readOnlyRepository,
             PasswordEncripter passwordEncripter,
@@ -25,6 +28,7 @@ namespace MyRecipeBook.Application.UseCases.User.Register
             IMapper mapper
             )
         {
+            _accessTokenGenerator = accessTokenGenerator;
             _writeOnlyRepository = writeOnlyRepository;
             _readOnlyRepository = readOnlyRepository;
             _passwordEncripter = passwordEncripter;
@@ -39,6 +43,7 @@ namespace MyRecipeBook.Application.UseCases.User.Register
             var user = _mapper.Map<Domain.Entities.User>(request);
 
             user.Password = _passwordEncripter.Encrypt(request.Password);
+            user.UserIdentifier = Guid.NewGuid();
 
             await _writeOnlyRepository.Add(user);
 
@@ -47,6 +52,11 @@ namespace MyRecipeBook.Application.UseCases.User.Register
             return new ResponsesRegisteredUserJson
             {
                 Name = user.Name,
+
+                Tokens = new ResponseTokensJson
+                {
+                    AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier)
+                }
             };
         }
 
