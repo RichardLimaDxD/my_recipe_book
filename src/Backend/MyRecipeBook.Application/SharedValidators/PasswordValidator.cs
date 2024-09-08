@@ -28,6 +28,5 @@ namespace MyRecipeBook.Application.SharedValidators
         public override string Name => "PasswordValidator";
 
         protected override string GetDefaultMessageTemplate(string errorCode) => "{ErrorMessage}";
-
     }
 }

@@ -45,12 +45,12 @@ namespace MyRecipeBook.Application.UseCases.User.ChangePassword
 
         private void Validate(RequestChangePasswordJson request, Domain.Entities.User loggeduser)
         {
-            var result = new ChangepasswordValidator().Validate(request);
+            var result = new ChangePasswordValidator().Validate(request);
 
             var currentPasswordEncripted = _passwordEncriter.Encrypt(request.Password);
 
             if (currentPasswordEncripted.Equals(loggeduser.Password).IsFalse())
-                result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesExeption.PASSWORD_EMPTY));
+                result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesExeption.PASSWORD_DIFFERENT_CURRENT_PASSWORD));
 
             if (result.IsValid.IsFalse())
                 throw new ErrorOnValidationException(result.Errors.Select(e => e.ErrorMessage).ToList());
