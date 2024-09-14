@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CommonTestUtilities.IdEncryption;
 using MyRecipeBook.Application.Services.AutoMapper;
 
 namespace CommonTestUtilities.Mapper
@@ -7,10 +8,16 @@ namespace CommonTestUtilities.Mapper
     {
         public static IMapper Build()
         {
-            return new AutoMapper.MapperConfiguration(options =>
+
+            var idEncripter = IdEncripterBuilder.Build();
+
+            var mapper = new AutoMapper.MapperConfiguration(options =>
             {
-                options.AddProfile(new AutoMapping());
-            }).CreateMapper();
+                options.AddProfile(new AutoMapping(idEncripter));
+            })
+            .CreateMapper();
+
+            return mapper;
         }
     }
 }

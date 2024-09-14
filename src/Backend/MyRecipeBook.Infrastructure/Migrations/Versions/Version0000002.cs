@@ -5,9 +5,11 @@ namespace MyRecipeBook.Infrastructure.Migrations.Versions
     [Migration(DatabaseVersions.TABLE_RECIPES, "Create table to save recipes information")]
     public class Version0000002 : VersionBase
     {
+        private const string RECIPE_TABLE_NAME = "Recipes";
+
         public override void Up()
         {
-            CreateTable("Recipes")
+            CreateTable(RECIPE_TABLE_NAME)
                 .WithColumn("Title").AsString().NotNullable()
                 .WithColumn("CookingTime").AsInt32().Nullable()
                 .WithColumn("Difficulty").AsInt32().Nullable()
@@ -18,7 +20,7 @@ namespace MyRecipeBook.Infrastructure.Migrations.Versions
                 .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_Ingredient_Recipe_Id", "Recipes", "Id")
                 .OnDelete(System.Data.Rule.Cascade);
 
-            CreateTable("Intructions")
+            CreateTable("Instructions")
                 .WithColumn("Step").AsString().NotNullable()
                 .WithColumn("Text").AsString(2000).NotNullable()
                 .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_Intruction_Recipe_Id", "Recipes", "Id")

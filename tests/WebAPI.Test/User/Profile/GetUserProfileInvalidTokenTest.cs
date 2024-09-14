@@ -13,7 +13,7 @@ namespace WebAPI.Test.User.Profile
         [Fact]
         public async Task Error_Token_Invalid()
         {
-            var response = await DoGet(METHOD, token: "tokenInvalid");
+            var response = await DoGet(method: METHOD, token: "tokenInvalid");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -21,7 +21,7 @@ namespace WebAPI.Test.User.Profile
         [Fact]
         public async Task Error_Without_Token()
         {
-            var response = await DoGet(METHOD, token: string.Empty);
+            var response = await DoGet(method: METHOD, token: string.Empty);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -31,7 +31,7 @@ namespace WebAPI.Test.User.Profile
         {
             var token = JwtTokenGeneratorBuilder.Build().Generate(Guid.NewGuid());
 
-            var response = await DoGet(METHOD, token);
+            var response = await DoGet(method: METHOD, token: token);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }

@@ -2,6 +2,7 @@
 
 namespace MyRecipeBook.Domain.Entities
 {
+
     public class Recipe : EntityBase
     {
         public string Title { get; set; } = string.Empty;
@@ -12,7 +13,7 @@ namespace MyRecipeBook.Domain.Entities
 
         public IList<Ingredient> Ingredients { get; set; } = [];
 
-        public IList<Instruction> Instruction { get; set; } = [];
+        public IList<Instruction> Instructions { get; set; } = [];
 
         public IList<DishType> DishTypes { get; set; } = [];
 

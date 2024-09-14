@@ -16,7 +16,7 @@ namespace WebAPI.Test.User.ChangePassword
         {
             var request = new RequestChangePasswordJson();
 
-            var response = await DoPut(METHOD, request, token: "tokenInvalid");
+            var response = await DoPut(method: METHOD, request: request, token: "tokenInvalid");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -26,7 +26,7 @@ namespace WebAPI.Test.User.ChangePassword
         {
             var request = new RequestChangePasswordJson();
 
-            var response = await DoPut(METHOD, request, token: string.Empty);
+            var response = await DoPut(method: METHOD, request: request, token: string.Empty);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -38,7 +38,7 @@ namespace WebAPI.Test.User.ChangePassword
 
             var request = new RequestChangePasswordJson();
 
-            var response = await DoPut(METHOD, request, token);
+            var response = await DoPut(method: METHOD, request: request, token: token);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }

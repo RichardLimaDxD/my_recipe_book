@@ -10,7 +10,7 @@ namespace WebAPI.Test.User.Register
 {
     public class RegisterUserTest : MyRecipeBookClassFixture
     {
-        private readonly string method = "user";
+        private readonly string METHOD = "user";
 
         public RegisterUserTest(CustomWebApplicationFactory factory) : base(factory) { }
 
@@ -19,7 +19,7 @@ namespace WebAPI.Test.User.Register
         {
             var request = RequestRegisterUserJsonBuilder.Build();
 
-            var response = await DoPost(method, request);
+            var response = await DoPost(method: METHOD, request: request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -41,7 +41,7 @@ namespace WebAPI.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
             request.Name = string.Empty;
 
-            var response = await DoPost(method, request, culture);
+            var response = await DoPost(method: METHOD, request: request, culture: culture);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
