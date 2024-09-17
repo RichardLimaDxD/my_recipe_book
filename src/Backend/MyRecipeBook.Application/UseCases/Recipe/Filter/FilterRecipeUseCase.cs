@@ -3,6 +3,7 @@ using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories.Recipe;
+using MyRecipeBook.Exceptions.ExceptionsBase;
 using MyRepiceBook.Domain.Services.LoggedUser;
 
 namespace MyRecipeBook.Application.UseCases.Recipe.Filter
@@ -55,6 +56,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Filter
             if (result.IsValid.IsFalse())
             {
                 var errorMessages = result.Errors.Select(error => error.ErrorMessage).Distinct().ToList();
+                throw new ErrorOnValidationException(errorMessages);
             }
         }
     }

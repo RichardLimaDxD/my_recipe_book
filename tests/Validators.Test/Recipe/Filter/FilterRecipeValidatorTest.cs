@@ -1,6 +1,7 @@
 ﻿using CommonTestUtilities.Requests;
 using FluentAssertions;
 using MyRecipeBook.Application.UseCases.Recipe.Filter;
+using MyRecipeBook.Exceptions;
 
 namespace Validators.Test.Recipe.Filter
 {
@@ -21,7 +22,43 @@ namespace Validators.Test.Recipe.Filter
         [Fact]
         public void Error_Invalid_Cooking_Time()
         {
+            var validator = new FilterRecipeValidator();
 
+            var request = RequestFilterRecipeJsonBuilder.Build();
+            request.CookingTimes.Add((MyRecipeBook.Communication.Enums.CookingTime)1000);
+
+            var result = validator.Validate(request);
+
+            result?.IsValid.Should().BeFalse();
+            result?.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.COOKING_TIME_NOT_SUPPORTED));
+        }
+
+        [Fact]
+        public void Error_Invalid_Difficulty()
+        {
+            var validator = new FilterRecipeValidator();
+
+            var request = RequestFilterRecipeJsonBuilder.Build();
+            request.Difficulties.Add((MyRecipeBook.Communication.Enums.Difficulty)1000);
+
+            var result = validator.Validate(request);
+
+            result.IsValid.Should().BeFalse();
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DIFFICULTY_LEVEL_NOT_SUPPORTED));
+        }
+
+        [Fact]
+        public void Error_Invalid_DishTypes()
+        {
+            var request = RequestFilterRecipeJsonBuilder.Build();
+            request.DishTypes.Add((MyRecipeBook.Communication.Enums.DishType)1000);
+
+            var validator = new FilterRecipeValidator();
+
+            var result = validator.Validate(request);
+
+            result.IsValid.Should().BeFalse();
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DISH_TYPE_NOT_SUPPORTED));
         }
     }
 }
