@@ -23,28 +23,29 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories
 
             if (filters.Difficulties.Any())
             {
-                query.Where(recipe => recipe.Difficulty.HasValue &&
+                query = query.Where(recipe => recipe.Difficulty.HasValue &&
                 filters.Difficulties.Contains(recipe.Difficulty.Value));
             }
 
             if (filters.CookingTimes.Any())
             {
-                query.Where(recipe => recipe.CookingTime.HasValue &&
+                query = query.Where(recipe => recipe.CookingTime.HasValue &&
                 filters.CookingTimes.Contains(recipe.CookingTime.Value));
             }
 
             if (filters.DishTypes.Any())
             {
-                query.Where(recipe => recipe.DishTypes.Any(dishType => filters.DishTypes.Contains(dishType.Type)));
+                query = query.Where(recipe => recipe.DishTypes.Any(dishType => filters.DishTypes.Contains(dishType.Type)));
             }
 
             if (filters.RecipeTitle_Ingredient.NotEmpty())
             {
-                query.Where(recipe => recipe.Title.Contains(filters.RecipeTitle_Ingredient) ||
-                       recipe.Ingredients.Any(Ingredient => Ingredient.Item.Contains(filters.RecipeTitle_Ingredient)));
+                query = query.Where(recipe => recipe.Title.Contains(filters.RecipeTitle_Ingredient) ||
+                       recipe.Ingredients.Any(ingredient => ingredient.Item.Contains(filters.RecipeTitle_Ingredient)));
             }
 
             return await query.ToListAsync();
         }
+
     }
 }

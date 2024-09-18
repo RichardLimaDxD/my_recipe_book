@@ -34,13 +34,38 @@ namespace WebAPI.Test.Recipe.Register.Filter
         [Fact]
         public async Task Success()
         {
+            var request = new RequestFilterRecipeJson
+            {
+                CookingTimes = [(MyRecipeBook.Communication.Enums.CookingTime)_recipeCookingTime],
+                Difficulties = [(MyRecipeBook.Communication.Enums.Difficulty)_recipeDifficultyLevel],
+                DishTypes = _recipeDishTypes.Select(dishType => (MyRecipeBook.Communication.Enums.DishType)dishType).ToList(),
+                RecipeTitle_Ingredient = _recipeTitle,
+            };
 
+            var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier);
+
+            var response = await DoPost(method: METHOD, request: request, token: token);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            await using var responseBody = await response.Content.ReadAsStreamAsync();
+
+            var responseData = await JsonDocument.ParseAsync(responseBody);
+
+            responseData.RootElement.GetProperty("recipes").EnumerateArray().Should().NotBeNullOrEmpty();
         }
 
         [Fact]
         public async Task Success_NoContent()
         {
+            var request = RequestFilterRecipeJsonBuilder.Build();
+            request.RecipeTitle_Ingredient = "recipeDontExist";
 
+            var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier);
+
+            var response = await DoPost(method: METHOD, request: request, token: token);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Theory]
