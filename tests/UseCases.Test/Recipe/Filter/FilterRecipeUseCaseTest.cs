@@ -8,7 +8,7 @@ using MyRecipeBook.Application.UseCases.Recipe.Filter;
 using MyRecipeBook.Exceptions;
 using MyRecipeBook.Exceptions.ExceptionsBase;
 
-namespace UseCases.Test.Recipe.Register.Filter
+namespace UseCases.Test.Recipe.Filter
 {
     public class FilterRecipeUseCaseTest
     {

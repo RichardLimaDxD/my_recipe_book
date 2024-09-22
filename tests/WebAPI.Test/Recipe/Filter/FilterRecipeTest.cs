@@ -8,7 +8,7 @@ using System.Net;
 using System.Text.Json;
 using WebAPI.Test.InlineData;
 
-namespace WebAPI.Test.Recipe.Register.Filter
+namespace WebAPI.Test.Recipe.Filter
 {
     public class FilterRecipeTest : MyRecipeBookClassFixture
     {

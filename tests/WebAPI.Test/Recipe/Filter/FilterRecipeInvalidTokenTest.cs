@@ -3,7 +3,7 @@ using CommonTestUtilities.Tokens;
 using FluentAssertions;
 using System.Net;
 
-namespace WebAPI.Test.Recipe.Register.Filter
+namespace WebAPI.Test.Recipe.Filter
 {
     public class FilterRecipeInvalidTokenTest : MyRecipeBookClassFixture
     {
