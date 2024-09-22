@@ -21,14 +21,14 @@ namespace MyRecipeBook.Infrastructure.Migrations.Versions
                 .OnDelete(System.Data.Rule.Cascade);
 
             CreateTable("Instructions")
-                .WithColumn("Step").AsString().NotNullable()
-                .WithColumn("Text").AsString(2000).NotNullable()
-                .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_Intruction_Recipe_Id", "Recipes", "Id")
-                .OnDelete(System.Data.Rule.Cascade);
+               .WithColumn("Step").AsInt32().NotNullable()
+               .WithColumn("Text").AsString(2000).NotNullable()
+               .WithColumn("RecipeId").AsInt64().NotNullable().ForeignKey("FK_Instruction_Recipe_Id", RECIPE_TABLE_NAME, "Id")
+               .OnDelete(System.Data.Rule.Cascade);
 
             CreateTable("DishTypes")
                .WithColumn("Type").AsInt32().NotNullable()
-               .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_DishType_Recipe_Id", "Recipes", "Id")
+               .WithColumn("RecipeId").AsInt64().NotNullable().ForeignKey("FK_DishType_Recipe_Id", RECIPE_TABLE_NAME, "Id")
                .OnDelete(System.Data.Rule.Cascade);
         }
     }

@@ -17,7 +17,7 @@ namespace MyRepiceBook.API.Filters
                 ThrowUnknowException(context);
         }
 
-        private void HandleProjectException(ExceptionContext context)
+        private static void HandleProjectException(ExceptionContext context)
         {
             if (context.Exception is InvalidLoginException)
             {
@@ -31,9 +31,15 @@ namespace MyRepiceBook.API.Filters
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception!.ErrorMessages));
             }
+            else if (context.Exception is NotFoundException)
+            {
+                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                context.Result = new NotFoundObjectResult(new
+                    ResponseErrorJson(context.Exception.Message));
+            }
         }
 
-        private void ThrowUnknowException(ExceptionContext context)
+        private static void ThrowUnknowException(ExceptionContext context)
         {
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Result = new ObjectResult(new ResponseErrorJson(ResourceMessagesExeption.UNKNOWN_ERROR));
