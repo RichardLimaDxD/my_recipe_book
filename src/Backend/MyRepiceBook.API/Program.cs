@@ -9,6 +9,8 @@ using MyRepiceBook.API.Filters;
 using MyRepiceBook.API.Middleware;
 using MyRepiceBook.API.Token;
 
+const string AUTHENTICATION_TYPE = "Bearer";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,7 +24,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.OperationFilter<IdsFilter>();
 
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition(AUTHENTICATION_TYPE, new OpenApiSecurityScheme
     {
         Description = @"JWT Authotization header using the Bearer scheme.
                         Enter 'Bearer' [space] and then your token in the text input below.
@@ -30,7 +32,7 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Scheme = AUTHENTICATION_TYPE
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -41,10 +43,10 @@ builder.Services.AddSwaggerGen(options =>
                  Reference = new OpenApiReference
                  {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    Id = AUTHENTICATION_TYPE
                  },
                  Scheme = "oauth2",
-                 Name = "Bearer",
+                 Name = AUTHENTICATION_TYPE,
                  In = ParameterLocation.Header
              },
             new List<string>()
@@ -81,7 +83,7 @@ app.MapControllers();
 
 MigrateDatabase();
 
-app.Run();
+await app.RunAsync();
 
 void MigrateDatabase()
 {

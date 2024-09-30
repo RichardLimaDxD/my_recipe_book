@@ -1,7 +1,6 @@
 ﻿using CommonTestUtilities.Requests;
 using CommonTestUtilities.Tokens;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyModel;
 using MyRecipeBook.Exceptions;
 using System.Globalization;
 using System.Net;

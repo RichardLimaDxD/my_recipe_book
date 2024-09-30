@@ -17,7 +17,7 @@ namespace MyRecipeBook.Infrastructure.Migrations.Versions
 
             CreateTable("Ingredients")
                 .WithColumn("Item").AsString().NotNullable()
-                .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_Ingredient_Recipe_Id", "Recipes", "Id")
+                .WithColumn("RecipeId").AsInt64().Nullable().ForeignKey("FK_Ingredient_Recipe_Id", RECIPE_TABLE_NAME, "Id")
                 .OnDelete(System.Data.Rule.Cascade);
 
             CreateTable("Instructions")

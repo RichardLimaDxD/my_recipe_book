@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
+using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Cryptography;
@@ -64,14 +65,14 @@ namespace MyRecipeBook.Application.UseCases.User.Register
         {
             var validator = new RegisterUserValidator();
 
-            var result = validator.Validate(request);
+            var result = await validator.ValidateAsync(request);
 
             bool emailExist = await _readOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
             if (emailExist)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesExeption.EMAIL_ALREADY_REGISTERED));
 
-            if (!result.IsValid)
+            if (result.IsValid.IsFalse())
             {
                 var errorMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
 
