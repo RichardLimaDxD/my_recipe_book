@@ -7,6 +7,7 @@ using MyRecipeBook.Domain.Repositories.Recipe;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Cryptography;
 using MyRecipeBook.Domain.Security.Tokens;
+using MyRecipeBook.Domain.Services.OpenAI;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Extensions;
@@ -14,8 +15,10 @@ using MyRecipeBook.Infrastructure.Security.Cryptography;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access.Generator;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access.Validator;
 using MyRecipeBook.Infrastructure.Services.LoggedUser;
+using MyRecipeBook.Infrastructure.Services.OpenAI;
 using MyRepiceBook.Domain.Services.LoggedUser;
 using System.Reflection;
+using OpenAI_API;
 
 namespace MyRecipeBook.Infrastructure
 {
@@ -27,6 +30,7 @@ namespace MyRecipeBook.Infrastructure
             AddRepositories(services);
             AddLoggedUser(services);
             AddTokens(services, configuration);
+            AddOpenAI(services, configuration);
 
             if (configuration.IsUnitTestEnviroment())
                 return;
@@ -52,6 +56,7 @@ namespace MyRecipeBook.Infrastructure
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+
             services.AddScoped<IRecipeWriteOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeReadOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeUpdateOnlyRepository, RecipeRepository>();
@@ -86,6 +91,17 @@ namespace MyRecipeBook.Infrastructure
             var additionalKey = configuration.GetValue<string>("Settings:Password:AdditionalKey");
 
             services.AddScoped<IPasswordEncripter>(option => new Sha512Encripter(additionalKey!));
+        }
+
+        private static void AddOpenAI(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IGenerateRecipeAI, ChatGTPService>();
+
+            var key = configuration.GetValue<string>("Settings:OpenAI:ApiKey");
+
+            var authentication = new OpenAI_API.APIAuthentication(key);
+
+            services.AddScoped<OpenAI_API.IOpenAIAPI>(option => new OpenAIAPI(authentication));
         }
     }
 }
