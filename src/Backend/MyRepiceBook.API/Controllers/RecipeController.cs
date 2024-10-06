@@ -99,7 +99,7 @@ namespace MyRepiceBook.API.Controllers
         [HttpPut]
         [Route("image/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
 
         public async Task<IActionResult> UpdateImage(
             [FromServices] IAddUpdateImageCoverUseCase useCase,
