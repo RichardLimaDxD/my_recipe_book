@@ -19,6 +19,9 @@ using MyRecipeBook.Infrastructure.Services.OpenAI;
 using MyRepiceBook.Domain.Services.LoggedUser;
 using System.Reflection;
 using OpenAI_API;
+using MyRecipeBook.Domain.Services.Storage;
+using MyRecipeBook.Infrastructure.Services.Storage;
+using Azure.Storage.Blobs;
 
 namespace MyRecipeBook.Infrastructure
 {
@@ -102,6 +105,14 @@ namespace MyRecipeBook.Infrastructure
             var authentication = new OpenAI_API.APIAuthentication(key);
 
             services.AddScoped<OpenAI_API.IOpenAIAPI>(option => new OpenAIAPI(authentication));
+        }
+
+        private static void AddAzureStorage(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetValue<string>("Settings:BlobStorage:Azure");
+
+            services.AddScoped<IBlobStorageService>(c => new AzureStorageService(
+                new BlobServiceClient(connectionString)));
         }
     }
 }
