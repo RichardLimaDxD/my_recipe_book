@@ -1,9 +1,9 @@
-﻿using FileTypeChecker.Extensions;
-using FileTypeChecker.Types;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using MyRecipeBook.Application.Extensions;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
+using MyRecipeBook.Domain.Services.Storage;
 using MyRecipeBook.Exceptions;
 using MyRecipeBook.Exceptions.ExceptionsBase;
 using MyRepiceBook.Domain.Services.LoggedUser;
@@ -15,13 +15,18 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Image
         private readonly ILoggedUser _loggedUser;
         private readonly IRecipeUpdateOnlyRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBlobStorageService _blobStorageService;
 
         public AddUpdateImageCoverUseCase(
-            ILoggedUser loggedUser, IRecipeUpdateOnlyRepository repository, IUnitOfWork unitOfWork)
+            ILoggedUser loggedUser,
+            IRecipeUpdateOnlyRepository repository,
+            IUnitOfWork unitOfWork,
+            IBlobStorageService blobStorageService)
         {
             _loggedUser = loggedUser;
             _repository = repository;
             _unitOfWork = unitOfWork;
+            _blobStorageService = blobStorageService;
         }
 
         public async Task Execute(long recipeId, IFormFile file)
@@ -35,14 +40,23 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Image
 
             var fileStream = file.OpenReadStream();
 
-            if (fileStream.Is<PortableNetworkGraphic>().IsFalse() &&
-                fileStream.Is<JointPhotographicExpertsGroup>().IsFalse())
+            (var isValidImage, var extension) = fileStream.ValidateAndGetImageExtension();
+
+            if (isValidImage.IsFalse())
             {
-                throw new ErrorOnValidationException(
-                [
-                    ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED
-                ]);
+                throw new ErrorOnValidationException([ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED]);
             }
+
+            if (string.IsNullOrEmpty(recipe.ImageIdentifier))
+            {
+                recipe.ImageIdentifier = $"{Guid.NewGuid()}{extension}";
+
+                _repository.Update(recipe);
+
+                await _unitOfWork.Commit();
+            }
+
+            await _blobStorageService.Upload(loggedUser, fileStream, recipe.ImageIdentifier);
         }
     }
 }

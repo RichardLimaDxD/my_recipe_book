@@ -1,4 +1,5 @@
-﻿using FluentMigrator.Runner;
+﻿using Azure.Storage.Blobs;
+using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Cryptography;
 using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Domain.Services.OpenAI;
+using MyRecipeBook.Domain.Services.Storage;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Extensions;
@@ -16,12 +18,10 @@ using MyRecipeBook.Infrastructure.Security.Tokens.Access.Generator;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access.Validator;
 using MyRecipeBook.Infrastructure.Services.LoggedUser;
 using MyRecipeBook.Infrastructure.Services.OpenAI;
-using MyRepiceBook.Domain.Services.LoggedUser;
-using System.Reflection;
-using OpenAI_API;
-using MyRecipeBook.Domain.Services.Storage;
 using MyRecipeBook.Infrastructure.Services.Storage;
-using Azure.Storage.Blobs;
+using MyRepiceBook.Domain.Services.LoggedUser;
+using OpenAI_API;
+using System.Reflection;
 
 namespace MyRecipeBook.Infrastructure
 {
@@ -34,6 +34,7 @@ namespace MyRecipeBook.Infrastructure
             AddLoggedUser(services);
             AddTokens(services, configuration);
             AddOpenAI(services, configuration);
+            AddAzureStorage(services, configuration);
 
             if (configuration.IsUnitTestEnviroment())
                 return;
