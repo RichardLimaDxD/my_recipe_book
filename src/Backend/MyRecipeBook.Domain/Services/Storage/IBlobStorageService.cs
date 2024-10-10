@@ -6,6 +6,8 @@ namespace MyRecipeBook.Domain.Services.Storage
     {
         Task Upload(User user, Stream file, string fileName);
 
-        Task<string> GetImageUrl(User user, string fileName);
+        Task<string> GetFileUrl(User user, string fileName);
+
+        Task Delete(User user, string fileName);
     }
 }
