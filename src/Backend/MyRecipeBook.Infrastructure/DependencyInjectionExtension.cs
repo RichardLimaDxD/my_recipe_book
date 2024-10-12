@@ -3,6 +3,7 @@ using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
 using MyRecipeBook.Domain.Repositories.User;
@@ -112,8 +113,9 @@ namespace MyRecipeBook.Infrastructure
         {
             var connectionString = configuration.GetValue<string>("Settings:BlobStorage:Azure");
 
-            services.AddScoped<IBlobStorageService>(c => new AzureStorageService(
-                new BlobServiceClient(connectionString)));
+            if (connectionString.NotEmpty())
+                services.AddScoped<IBlobStorageService>(c => new AzureStorageService(
+                    new BlobServiceClient(connectionString)));
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using MyRecipeBook.Application.Extensions;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
+using MyRecipeBook.Domain.Services.Storage;
+using MyRecipeBook.Exceptions;
 using MyRecipeBook.Exceptions.ExceptionsBase;
 using MyRepiceBook.Domain.Services.LoggedUser;
 
@@ -15,20 +18,23 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Register
         private readonly ILoggedUser _loggedUser;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IBlobStorageService _blobStorageService;
 
         public RegisterRecipeUseCase(
             ILoggedUser loggedUser,
             IRecipeWriteOnlyRepository repository,
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IBlobStorageService blobStorageService)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _loggedUser = loggedUser;
+            _blobStorageService = blobStorageService;
         }
 
-        public async Task<ResponseRegisteredRecipeJson> Execute(RequestRecipeJson request)
+        public async Task<ResponseRegisteredRecipeJson> Execute(RequestRegisterRecipeFormData request)
         {
             Validate(request);
 
@@ -44,6 +50,20 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Register
 
             recipe.Instructions = _mapper.Map<IList<Domain.Entities.Instruction>>(instructions);
 
+            if (request.Image is not null)
+            {
+                var fileStream = request.Image.OpenReadStream();
+
+                (var isValidImage, var extension) = fileStream.ValidateAndGetImageExtension();
+
+                if (isValidImage.IsFalse())
+                    throw new ErrorOnValidationException([ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED]);
+
+                recipe.ImageIdentifier = $"{Guid.NewGuid()}{extension}";
+
+                await _blobStorageService.Upload(loggedUser, fileStream, recipe.ImageIdentifier);
+            }
+
             await _repository.Add(recipe);
 
             await _unitOfWork.Commit();
@@ -51,12 +71,14 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Register
             return _mapper.Map<ResponseRegisteredRecipeJson>(recipe);
         }
 
-        private static void Validate(RequestRecipeJson request)
+        private static void Validate(RequestRegisterRecipeFormData request)
         {
             var result = new RecipeValidator().Validate(request);
 
             if (result.IsValid.IsFalse())
                 throw new ErrorOnValidationException(result.Errors.Select(error => error.ErrorMessage).Distinct().ToList());
         }
+
+
     }
 }

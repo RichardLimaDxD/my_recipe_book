@@ -20,7 +20,7 @@ namespace UseCases.Test.Recipe.Update
 
             var recipe = RecipeBuilder.Build(user);
 
-            var request = RequestRecipeJsonBuilder.Build();
+            var request = RequestRegisterRecipeFormDataBuilder.Build();
 
             var useCase = CreateUseCase(user, recipe);
 
@@ -34,7 +34,7 @@ namespace UseCases.Test.Recipe.Update
         {
             (var user, _) = UserBuilder.Build();
 
-            var request = RequestRecipeJsonBuilder.Build();
+            var request = RequestRegisterRecipeFormDataBuilder.Build();
 
             var useCase = CreateUseCase(user);
 
@@ -51,7 +51,7 @@ namespace UseCases.Test.Recipe.Update
 
             var recipe = RecipeBuilder.Build(user);
 
-            var request = RequestRecipeJsonBuilder.Build();
+            var request = RequestRegisterRecipeFormDataBuilder.Build();
             request.Title = string.Empty;
 
             var useCase = CreateUseCase(user);

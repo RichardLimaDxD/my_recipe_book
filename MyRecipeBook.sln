@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7F23C380-4357-4532-AEDA-DC2270091B6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__tests__", "__tests__", "{B3F783C6-998A-4BF6-8AE3-C5A41D0CFCA2}"
+	ProjectSection(SolutionItems) = preProject
+		src\Backend\MyRecipeBook.Application\Extensions\StreamImageExtensions.cs = src\Backend\MyRecipeBook.Application\Extensions\StreamImageExtensions.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{70BDE909-D19F-4139-9540-BA57A91D3C1C}"
 EndProject
@@ -29,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTestUtilities", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCases.Test", "tests\UseCases.Test\UseCases.Test.csproj", "{E2F83B79-44E3-4C89-BFCA-5967C4645190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI.Test", "tests\WebAPI.Test\WebAPI.Test.csproj", "{30867375-ECFE-4B5F-A1C7-D77F5B09157D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI.Test", "tests\WebAPI.Test\WebAPI.Test.csproj", "{30867375-ECFE-4B5F-A1C7-D77F5B09157D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
