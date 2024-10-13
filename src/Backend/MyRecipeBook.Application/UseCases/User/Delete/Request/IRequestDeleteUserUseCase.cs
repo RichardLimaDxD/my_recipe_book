@@ -1,4 +1,4 @@
-﻿namespace MyRecipeBook.Application.UseCases.User.Delete
+﻿namespace MyRecipeBook.Application.UseCases.User.Delete.Request
 {
     public interface IRequestDeleteUserUseCase
     {

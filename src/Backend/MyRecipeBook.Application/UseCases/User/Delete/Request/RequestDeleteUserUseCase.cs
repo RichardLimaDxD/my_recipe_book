@@ -3,7 +3,7 @@ using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Services.ServicesBus;
 using MyRepiceBook.Domain.Services.LoggedUser;
 
-namespace MyRecipeBook.Application.UseCases.User.Delete
+namespace MyRecipeBook.Application.UseCases.User.Delete.Request
 {
     public class RequestDeleteUserUseCase : IRequestDeleteUserUseCase
     {

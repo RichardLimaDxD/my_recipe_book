@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Messaging.ServiceBus;
+using Azure.Storage.Blobs;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Cryptography;
 using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Domain.Services.OpenAI;
+using MyRecipeBook.Domain.Services.ServicesBus;
 using MyRecipeBook.Domain.Services.Storage;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
@@ -19,6 +21,7 @@ using MyRecipeBook.Infrastructure.Security.Tokens.Access.Generator;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access.Validator;
 using MyRecipeBook.Infrastructure.Services.LoggedUser;
 using MyRecipeBook.Infrastructure.Services.OpenAI;
+using MyRecipeBook.Infrastructure.Services.ServicesBus;
 using MyRecipeBook.Infrastructure.Services.Storage;
 using MyRepiceBook.Domain.Services.LoggedUser;
 using OpenAI_API;
@@ -36,6 +39,7 @@ namespace MyRecipeBook.Infrastructure
             AddTokens(services, configuration);
             AddOpenAI(services, configuration);
             AddAzureStorage(services, configuration);
+            AddQueue(services, configuration);
 
             if (configuration.IsUnitTestEnviroment())
                 return;
@@ -116,6 +120,28 @@ namespace MyRecipeBook.Infrastructure
             if (connectionString.NotEmpty())
                 services.AddScoped<IBlobStorageService>(c => new AzureStorageService(
                     new BlobServiceClient(connectionString)));
+        }
+
+        private static void AddQueue(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetValue<string>("Settings:ServiceBus:DeleteUserAccount")!;
+
+            var client = new ServiceBusClient(connectionString, new ServiceBusClientOptions
+            {
+                TransportType = ServiceBusTransportType.AmqpWebSockets
+            });
+
+            var deleteQueue = new DeleteUserQueue(client.CreateSender("user"));
+
+            var deleteUserProcessor = new DeleteUserProcessor(client
+                .CreateProcessor("user", new ServiceBusProcessorOptions
+                {
+                    MaxConcurrentCalls = 1
+                }));
+
+            services.AddSingleton(deleteUserProcessor);
+
+            services.AddScoped<IDeleteUserQueue>(options => deleteQueue);
         }
     }
 }
