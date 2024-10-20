@@ -9,5 +9,7 @@ namespace MyRecipeBook.Domain.Services.Storage
         Task<string> GetFileUrl(User user, string fileName);
 
         Task Delete(User user, string fileName);
+
+        Task DeleteContainer(Guid userIdentifier);
     }
 }

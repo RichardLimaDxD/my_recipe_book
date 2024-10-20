@@ -65,10 +65,12 @@ namespace MyRecipeBook.Infrastructure
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+            services.AddScoped<IUserDeleteOnlyRepository, UserRepository>();
 
             services.AddScoped<IRecipeWriteOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeReadOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeUpdateOnlyRepository, RecipeRepository>();
+
         }
 
         private static void AddFluentMigrator_SqlServer(IServiceCollection services, IConfiguration configuration)
@@ -124,7 +126,7 @@ namespace MyRecipeBook.Infrastructure
 
         private static void AddQueue(IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetValue<string>("Settings:ServiceBus:DeleteUserAccount")!;
+            var connectionString = configuration.GetValue<string>("Settings:ServicesBus:DeleteUserAccount")!;
 
             var client = new ServiceBusClient(connectionString, new ServiceBusClientOptions
             {

@@ -71,5 +71,12 @@ namespace MyRecipeBook.Infrastructure.Services.Storage
                 await containerClient.DeleteBlobIfExistsAsync(fileName);
             }
         }
+
+        public async Task DeleteContainer(Guid userIdentifier)
+        {
+            var container = _blobServiceClient.GetBlobContainerClient(userIdentifier.ToString());
+
+            await container.DeleteIfExistsAsync();
+        }
     }
 }
