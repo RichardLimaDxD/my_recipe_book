@@ -26,10 +26,6 @@ namespace UseCases.Test.User.ChangePassword
             Func<Task> act = async () => await useCase.Execute(request);
 
             await act.Should().NotThrowAsync();
-
-            var passwordEncripter = PasswordEncripterBuilder.Build();
-
-            user.Password.Should().Be(passwordEncripter.Encrypt(request.NewPassword));
         }
 
         [Fact]
@@ -50,10 +46,6 @@ namespace UseCases.Test.User.ChangePassword
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
                 .Where(e => e.ErrorMessages.Count == 1 &&
                 e.ErrorMessages.Contains(ResourceMessagesExeption.PASSWORD_EMPTY));
-
-            var passwordEncripter = PasswordEncripterBuilder.Build();
-
-            user.Password.Should().Be(passwordEncripter.Encrypt(password));
         }
 
         [Fact]
@@ -70,10 +62,6 @@ namespace UseCases.Test.User.ChangePassword
             await act.Should().ThrowAsync<ErrorOnValidationException>()
                 .Where(error => error.ErrorMessages.Count == 1 &&
                  error.ErrorMessages.Contains(ResourceMessagesExeption.PASSWORD_DIFFERENT_CURRENT_PASSWORD));
-
-            var passwordEncripter = PasswordEncripterBuilder.Build();
-
-            user.Password.Should().Be(passwordEncripter.Encrypt(password));
         }
 
         private static ChangePasswordUseCase CreateUseCase(MyRecipeBook.Domain.Entities.User user)

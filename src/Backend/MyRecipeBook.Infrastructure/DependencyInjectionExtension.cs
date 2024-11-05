@@ -33,7 +33,7 @@ namespace MyRecipeBook.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            AddPasswordEncrypter(services, configuration);
+            AddPasswordEncrypter(services);
             AddRepositories(services);
             AddLoggedUser(services);
             AddTokens(services, configuration);
@@ -97,11 +97,9 @@ namespace MyRecipeBook.Infrastructure
 
         private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 
-        private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration configuration)
+        private static void AddPasswordEncrypter(IServiceCollection services)
         {
-            var additionalKey = configuration.GetValue<string>("Settings:Password:AdditionalKey");
-
-            services.AddScoped<IPasswordEncripter>(option => new Sha512Encripter(additionalKey!));
+            services.AddScoped<IPasswordEncripter, BCryptNet>();
         }
 
         private static void AddOpenAI(IServiceCollection services, IConfiguration configuration)
@@ -127,6 +125,9 @@ namespace MyRecipeBook.Infrastructure
         private static void AddQueue(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("Settings:ServicesBus:DeleteUserAccount")!;
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+                return;
 
             var client = new ServiceBusClient(connectionString, new ServiceBusClientOptions
             {

@@ -8,6 +8,6 @@
 
         public string Password { get; set; } = string.Empty;
 
-        public Guid UserIdentifier { get; set; }
+        public Guid UserIdentifier { get; set; } = Guid.NewGuid();
     }
 }
