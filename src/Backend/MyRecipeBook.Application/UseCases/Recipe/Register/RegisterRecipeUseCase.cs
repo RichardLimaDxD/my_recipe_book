@@ -57,7 +57,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Register
                 (var isValidImage, var extension) = fileStream.ValidateAndGetImageExtension();
 
                 if (isValidImage.IsFalse())
-                    throw new ErrorOnValidationException([ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED]);
+                    throw new ErrorOnValidationException([ResourceMessagesException.ONLY_IMAGES_ACCEPTED]);
 
                 recipe.ImageIdentifier = $"{Guid.NewGuid()}{extension}";
 
@@ -78,7 +78,5 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Register
             if (result.IsValid.IsFalse())
                 throw new ErrorOnValidationException(result.Errors.Select(error => error.ErrorMessage).Distinct().ToList());
         }
-
-
     }
 }

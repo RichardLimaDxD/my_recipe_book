@@ -51,7 +51,7 @@ namespace WebAPI.Test.User.Update
 
             var errors = responseData.RootElement.GetProperty("errors").EnumerateArray();
 
-            var expectedMessages = ResourceMessagesExeption.ResourceManager.GetString("NAME_EMPTY", new CultureInfo(culture));
+            var expectedMessages = ResourceMessagesException.ResourceManager.GetString("NAME_EMPTY", new CultureInfo(culture));
 
             errors.Should().HaveCount(1).And.Contain(c => c.GetString()!.Equals(expectedMessages));
         }

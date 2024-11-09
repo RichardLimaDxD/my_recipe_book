@@ -34,7 +34,7 @@ namespace Validators.Test.User.Register
             result.Errors.Should().ContainSingle()
                 .And.Contain(error => error
             .ErrorMessage
-            .Equals(ResourceMessagesExeption.NAME_EMPTY));
+            .Equals(ResourceMessagesException.NAME_EMPTY));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Validators.Test.User.Register
             result.Errors.Should().ContainSingle()
                 .And.Contain(error => error
             .ErrorMessage
-            .Equals(ResourceMessagesExeption.EMAIL_EMPTY));
+            .Equals(ResourceMessagesException.EMAIL_EMPTY));
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Validators.Test.User.Register
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.EMAIL_INVALID));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.EMAIL_INVALID));
         }
 
         [Theory]
@@ -88,7 +88,7 @@ namespace Validators.Test.User.Register
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INVALID_PASSWORD));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INVALID_PASSWORD));
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace Validators.Test.User.Register
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.PASSWORD_EMPTY));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.PASSWORD_EMPTY));
         }
     }
 }

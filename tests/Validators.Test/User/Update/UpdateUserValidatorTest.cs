@@ -31,7 +31,7 @@ namespace Validators.Test.User.Update
 
             result.IsValid.Should().BeFalse();
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.NAME_EMPTY));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.NAME_EMPTY));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Validators.Test.User.Update
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.EMAIL_EMPTY));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.EMAIL_EMPTY));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Validators.Test.User.Update
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.EMAIL_INVALID));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.EMAIL_INVALID));
         }
     }
 }

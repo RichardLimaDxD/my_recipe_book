@@ -32,7 +32,7 @@ namespace Validators.Test.Recipe
 
             result.IsValid.Should().BeFalse();
             result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage
-            .Equals(ResourceMessagesExeption.COOKING_TIME_NOT_SUPPORTED));
+            .Equals(ResourceMessagesException.COOKING_TIME_NOT_SUPPORTED));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Validators.Test.Recipe
 
             result.IsValid.Should().BeFalse();
             result.Errors.Should().ContainSingle().And.Contain(error => error
-            .ErrorMessage.Equals(ResourceMessagesExeption.DIFFICULTY_LEVEL_NOT_SUPPORTED));
+            .ErrorMessage.Equals(ResourceMessagesException.DIFFICULTY_LEVEL_NOT_SUPPORTED));
         }
 
         [Theory]
@@ -65,7 +65,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.RECIPE_TITLE_EMPTY));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.RECIPE_TITLE_EMPTY));
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DISH_TYPE_NOT_SUPPORTED));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.DISH_TYPE_NOT_SUPPORTED));
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.AT_LEAST_ONE_INGREDIENT));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.AT_LEAST_ONE_INGREDIENT));
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.AT_LEAST_ONE_INSTRUCTION));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.AT_LEAST_ONE_INSTRUCTION));
         }
 
         [Theory]
@@ -163,7 +163,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INGREDIENT_EMPTY));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INGREDIENT_EMPTY));
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER));
         }
 
         [Fact]
@@ -191,7 +191,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.NON_NEGATIVE_INSTRUCTION_STEP));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.NON_NEGATIVE_INSTRUCTION_STEP));
         }
 
         [Theory]
@@ -208,7 +208,7 @@ namespace Validators.Test.Recipe
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INSTRUCTION_EMPTY));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INSTRUCTION_EMPTY));
         }
 
         [Fact]
@@ -223,7 +223,7 @@ namespace Validators.Test.Recipe
 
             result.IsValid.Should().BeFalse();
             result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage
-            .Equals(ResourceMessagesExeption.INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS));
+            .Equals(ResourceMessagesException.INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS));
         }
     }
 }

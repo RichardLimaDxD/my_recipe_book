@@ -46,8 +46,8 @@ namespace UseCases.Test.Recipe.Filter
             Func<Task> act = async () => { await useCase.Execute(request); };
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                .Where(e => e.ErrorMessages.Count == 1 &&
-                    e.ErrorMessages.Contains(ResourceMessagesExeption.COOKING_TIME_NOT_SUPPORTED));
+                .Where(e => e.GetErrorMessages().Count == 1 &&
+                    e.GetErrorMessages().Contains(ResourceMessagesException.COOKING_TIME_NOT_SUPPORTED));
         }
 
         private static FilterRecipeUseCase CreateUseCase(

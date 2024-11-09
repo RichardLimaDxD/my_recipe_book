@@ -8,9 +8,9 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Filter
     {
         public FilterRecipeValidator()
         {
-            RuleForEach(r => r.CookingTimes).IsInEnum().WithMessage(ResourceMessagesExeption.COOKING_TIME_NOT_SUPPORTED);
-            RuleForEach(r => r.Difficulties).IsInEnum().WithMessage(ResourceMessagesExeption.DIFFICULTY_LEVEL_NOT_SUPPORTED);
-            RuleForEach(r => r.DishTypes).IsInEnum().WithMessage(ResourceMessagesExeption.DISH_TYPE_NOT_SUPPORTED);
+            RuleForEach(r => r.CookingTimes).IsInEnum().WithMessage(ResourceMessagesException.COOKING_TIME_NOT_SUPPORTED);
+            RuleForEach(r => r.Difficulties).IsInEnum().WithMessage(ResourceMessagesException.DIFFICULTY_LEVEL_NOT_SUPPORTED);
+            RuleForEach(r => r.DishTypes).IsInEnum().WithMessage(ResourceMessagesException.DISH_TYPE_NOT_SUPPORTED);
         }
     }
 }

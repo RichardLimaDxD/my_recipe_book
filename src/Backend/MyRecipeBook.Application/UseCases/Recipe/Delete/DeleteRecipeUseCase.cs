@@ -37,7 +37,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Delete
             var recipe = await _repositoryRead.GetById(loggedUser, recipeId);
 
             if (recipe is null)
-                throw new NotFoundException(ResourceMessagesExeption.RECIPE_NOT_FOUND);
+                throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
 
             if (recipe.ImageIdentifier.NotEmpty())
                 await _blobStorageService.Delete(loggedUser, recipe.ImageIdentifier);

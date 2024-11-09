@@ -87,7 +87,7 @@ namespace WebAPI.Test.Recipe.Filter
 
             var errors = responseData.RootElement.GetProperty("errors").EnumerateArray();
 
-            var expectedMessage = ResourceMessagesExeption.ResourceManager.GetString("COOKING_TIME_NOT_SUPPORTED", new CultureInfo(culture));
+            var expectedMessage = ResourceMessagesException.ResourceManager.GetString("COOKING_TIME_NOT_SUPPORTED", new CultureInfo(culture));
 
             errors.Should().HaveCount(1).And.Contain(c => c.GetString()!.Equals(expectedMessage));
         }

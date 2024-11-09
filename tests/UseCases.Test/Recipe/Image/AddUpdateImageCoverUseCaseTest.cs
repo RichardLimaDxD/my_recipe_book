@@ -39,7 +39,7 @@ namespace UseCases.Test.Recipe.Image
             var act = async () => await useCase.Execute(1, file);
 
             (await act.Should().ThrowAsync<NotFoundException>())
-                .Where(error => error.Message.Equals(ResourceMessagesExeption.RECIPE_NOT_FOUND));
+                .Where(error => error.Message.Equals(ResourceMessagesException.RECIPE_NOT_FOUND));
         }
 
         [Fact]
@@ -55,8 +55,8 @@ namespace UseCases.Test.Recipe.Image
             var act = async () => await useCase.Execute(recipe.Id, file);
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                 .Where(error => error.ErrorMessages.Count == 1 &&
-                 error.ErrorMessages.Contains(ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED));
+                 .Where(error => error.GetErrorMessages().Count == 1 &&
+                 error.GetErrorMessages().Contains(ResourceMessagesException.ONLY_IMAGES_ACCEPTED));
         }
 
         private static AddUpdateImageCoverUseCase CreateUseCase(

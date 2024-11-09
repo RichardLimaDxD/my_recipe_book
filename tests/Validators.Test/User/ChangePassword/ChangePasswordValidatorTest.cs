@@ -36,7 +36,7 @@ namespace Validators.Test.User.ChangePassword
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INVALID_PASSWORD));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INVALID_PASSWORD));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Validators.Test.User.ChangePassword
             result.IsValid.Should().BeFalse();
 
             result.Errors.Should().ContainSingle()
-                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.PASSWORD_EMPTY));
+                .And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.PASSWORD_EMPTY));
         }
     }
 }

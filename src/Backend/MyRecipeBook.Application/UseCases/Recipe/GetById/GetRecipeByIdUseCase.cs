@@ -35,7 +35,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.GetById
             var recipe = await _repository.GetById(loggedUser, recipeId);
 
             if (recipe is null)
-                throw new NotFoundException(ResourceMessagesExeption.RECIPE_NOT_FOUND);
+                throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
 
             var response = _mapper.Map<ResponseRecipeJson>(recipe);
 

@@ -41,8 +41,8 @@ namespace UseCases.Test.Recipe.Generate
             var act = async () => await useCase.Execute(request);
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                .Where(error => error.ErrorMessages.Count == 1 &&
-                error.ErrorMessages.Contains(ResourceMessagesExeption.DUPLICATED_INGREDIENTS_IN_LIST));
+                .Where(error => error.GetErrorMessages().Count == 1 &&
+                error.GetErrorMessages().Contains(ResourceMessagesException.DUPLICATED_INGREDIENTS_IN_LIST));
         }
 
         private static GenerateRecipeUseCase CreateUseCase(GeneratedRecipeDto dto)

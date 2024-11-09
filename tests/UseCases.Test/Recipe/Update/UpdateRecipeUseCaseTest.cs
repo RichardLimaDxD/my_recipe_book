@@ -41,7 +41,7 @@ namespace UseCases.Test.Recipe.Update
             Func<Task> act = async () => await useCase.Execute(recipeId: 1000, request);
 
             (await act.Should().ThrowAsync<NotFoundException>())
-                .Where(error => error.Message.Equals(ResourceMessagesExeption.RECIPE_NOT_FOUND));
+                .Where(error => error.Message.Equals(ResourceMessagesException.RECIPE_NOT_FOUND));
         }
 
         [Fact]
@@ -59,8 +59,8 @@ namespace UseCases.Test.Recipe.Update
             Func<Task> act = async () => await useCase.Execute(recipe.Id, request);
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                .Where(error => error.ErrorMessages.Count == 1 &&
-                error.ErrorMessages.Contains(ResourceMessagesExeption.RECIPE_TITLE_EMPTY));
+                .Where(error => error.GetErrorMessages().Count == 1 &&
+                error.GetErrorMessages().Contains(ResourceMessagesException.RECIPE_TITLE_EMPTY));
         }
 
         private static UpdateRecipeUseCase CreateUseCase(MyRecipeBook.Domain.Entities.User user,

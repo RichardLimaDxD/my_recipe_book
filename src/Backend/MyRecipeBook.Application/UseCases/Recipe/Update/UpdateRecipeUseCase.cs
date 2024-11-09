@@ -37,7 +37,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Update
             var recipe = await _repository.GetById(loggedUser, recipeId);
 
             if (recipe is null)
-                throw new NotFoundException(ResourceMessagesExeption.RECIPE_NOT_FOUND);
+                throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
 
             recipe.Ingredients.Clear();
             recipe.Instructions.Clear();
@@ -64,6 +64,5 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Update
             if (result.IsValid.IsFalse())
                 throw new ErrorOnValidationException(result.Errors.Select(e => e.ErrorMessage).Distinct().ToList());
         }
-
     }
 }

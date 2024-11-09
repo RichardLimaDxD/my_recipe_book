@@ -31,7 +31,7 @@ namespace Validators.Test.Recipe.Generate
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INVALID_NUMBER_INGREDIENTS));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INVALID_NUMBER_INGREDIENTS));
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace Validators.Test.Recipe.Generate
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DUPLICATED_INGREDIENTS_IN_LIST));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.DUPLICATED_INGREDIENTS_IN_LIST));
         }
 
         [Theory]
@@ -63,7 +63,7 @@ namespace Validators.Test.Recipe.Generate
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.INGREDIENT_EMPTY));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.INGREDIENT_EMPTY));
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Validators.Test.Recipe.Generate
             result.IsValid.Should().BeFalse();
             result.Errors.Should().ContainSingle()
                 .And.Contain(error => error.ErrorMessage
-                .Equals(ResourceMessagesExeption.INGREDIENT_NOT_FOLLOWING_PATTERN));
+                .Equals(ResourceMessagesException.INGREDIENT_NOT_FOLLOWING_PATTERN));
         }
     }
 }

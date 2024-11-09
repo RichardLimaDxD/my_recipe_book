@@ -36,7 +36,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Image
             var recipe = await _repository.GetById(loggedUser, recipeId);
 
             if (recipe is null)
-                throw new NotFoundException(ResourceMessagesExeption.RECIPE_NOT_FOUND);
+                throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
 
             var fileStream = file.OpenReadStream();
 
@@ -44,7 +44,7 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Image
 
             if (isValidImage.IsFalse())
             {
-                throw new ErrorOnValidationException([ResourceMessagesExeption.ONLY_IMAGES_ACCEPTED]);
+                throw new ErrorOnValidationException([ResourceMessagesException.ONLY_IMAGES_ACCEPTED]);
             }
 
             if (string.IsNullOrEmpty(recipe.ImageIdentifier))

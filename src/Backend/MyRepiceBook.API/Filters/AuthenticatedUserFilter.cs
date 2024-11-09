@@ -30,10 +30,10 @@ namespace MyRepiceBook.API.Filters
                 var userIdentifier = _accessTokenValidator.ValidatedAndGetUserIdentifier(token);
 
                 var exist = await _repository.ExistActiveUserWithIdentifier(userIdentifier);
-
                 if (exist.IsFalse())
-                    throw new MyRecipeBookException(ResourceMessagesExeption.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
-
+                {
+                    throw new UnauthorizedException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
+                }
             }
             catch (SecurityTokenExpiredException)
             {
@@ -42,22 +42,24 @@ namespace MyRepiceBook.API.Filters
                     TokenIsExpired = true,
                 });
             }
-            catch (MyRecipeBookException ex)
+            catch (MyRecipeBookException myRecipeBookException)
             {
-                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ex.Message));
+                context.HttpContext.Response.StatusCode = (int)myRecipeBookException.GetStatusCode();
+                context.Result = new ObjectResult(new ResponseErrorJson(myRecipeBookException.GetErrorMessages()));
             }
             catch
             {
-                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ResourceMessagesExeption.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE));
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE));
             }
         }
 
         private static string TokenOnRequest(AuthorizationFilterContext context)
         {
             var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
-
             if (string.IsNullOrWhiteSpace(authentication))
-                throw new MyRecipeBookException(ResourceMessagesExeption.NO_TOKEN);
+            {
+                throw new UnauthorizedException(ResourceMessagesException.NO_TOKEN);
+            }
 
             return authentication["Bearer ".Length..].Trim();
         }

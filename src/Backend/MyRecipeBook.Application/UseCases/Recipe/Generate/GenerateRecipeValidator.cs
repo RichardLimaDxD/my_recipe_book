@@ -13,12 +13,12 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Generate
 
             RuleFor(request => request.Ingredients.Count)
                 .InclusiveBetween(1, maximum_number_ingredients)
-                .WithMessage(ResourceMessagesExeption.INVALID_NUMBER_INGREDIENTS);
+                .WithMessage(ResourceMessagesException.INVALID_NUMBER_INGREDIENTS);
 
             RuleFor(request => request.Ingredients)
                 .Must(ingredients => ingredients.Count == ingredients
                 .Select(c => c).Distinct().Count())
-                .WithMessage(ResourceMessagesExeption.DUPLICATED_INGREDIENTS_IN_LIST);
+                .WithMessage(ResourceMessagesException.DUPLICATED_INGREDIENTS_IN_LIST);
 
             RuleFor(request => request.Ingredients).ForEach(rule =>
             {
@@ -26,13 +26,13 @@ namespace MyRecipeBook.Application.UseCases.Recipe.Generate
                 {
                     if (string.IsNullOrWhiteSpace(value))
                     {
-                        context.AddFailure("Ingredient", ResourceMessagesExeption.INGREDIENT_EMPTY);
+                        context.AddFailure("Ingredient", ResourceMessagesException.INGREDIENT_EMPTY);
                         return;
                     }
 
                     if (value.Count(c => c == ' ') > 3 || value.Count(c => c == '/') > 3)
                     {
-                        context.AddFailure("Ingredient", ResourceMessagesExeption.INGREDIENT_NOT_FOLLOWING_PATTERN);
+                        context.AddFailure("Ingredient", ResourceMessagesException.INGREDIENT_NOT_FOLLOWING_PATTERN);
                         return;
                     }
                 });

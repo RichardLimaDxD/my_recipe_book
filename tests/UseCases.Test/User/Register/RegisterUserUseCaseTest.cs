@@ -38,8 +38,8 @@ namespace UseCases.Test.User.Register
             Func<Task> act = async () => await useCase.Execute(request);
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                .Where(error => error.ErrorMessages.Count == 1 &&
-                error.ErrorMessages.Contains(ResourceMessagesExeption.EMAIL_ALREADY_REGISTERED));
+                .Where(error => error.GetErrorMessages().Count == 1 &&
+                error.GetErrorMessages().Contains(ResourceMessagesException.EMAIL_ALREADY_REGISTERED));
         }
 
         [Fact]
@@ -54,8 +54,8 @@ namespace UseCases.Test.User.Register
             Func<Task> act = async () => await useCase.Execute(request);
 
             (await act.Should().ThrowAsync<ErrorOnValidationException>())
-                .Where(error => error.ErrorMessages.Count == 1 &&
-                error.ErrorMessages.Contains(ResourceMessagesExeption.NAME_EMPTY));
+                .Where(error => error.GetErrorMessages().Count == 1 &&
+                error.GetErrorMessages().Contains(ResourceMessagesException.NAME_EMPTY));
         }
 
         private RegisterUserUseCase CreateUseCase(string? email = null)

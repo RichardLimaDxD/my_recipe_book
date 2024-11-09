@@ -93,7 +93,7 @@ namespace MyRecipeBook.Application.UseCases.User.Register
             bool emailExist = await _readOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
             if (emailExist)
-                result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesExeption.EMAIL_ALREADY_REGISTERED));
+                result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesException.EMAIL_ALREADY_REGISTERED));
 
             if (result.IsValid.IsFalse())
             {

@@ -57,7 +57,7 @@ namespace MyRecipeBook.Application.UseCases.User.Update
                 var userExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
                 if (userExist)
-                    result.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ResourceMessagesExeption.EMAIL_ALREADY_REGISTERED));
+                    result.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ResourceMessagesException.EMAIL_ALREADY_REGISTERED));
             }
 
             if (result.IsValid.IsFalse())

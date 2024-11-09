@@ -38,7 +38,7 @@ namespace UseCases.Test.Recipe.GetById
             Func<Task> act = async () => { await useCase.Execute(recipeId: 1000); };
 
             (await act.Should().ThrowAsync<NotFoundException>())
-                .Where(error => error.Message.Equals(ResourceMessagesExeption.RECIPE_NOT_FOUND));
+                .Where(error => error.Message.Equals(ResourceMessagesException.RECIPE_NOT_FOUND));
         }
 
         private static GetRecipeByIdUseCase CreateUseCase(

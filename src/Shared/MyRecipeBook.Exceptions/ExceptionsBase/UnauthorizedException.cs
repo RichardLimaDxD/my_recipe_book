@@ -2,9 +2,9 @@
 
 namespace MyRecipeBook.Exceptions.ExceptionsBase
 {
-    public class RefreshTokenNotFoundException : MyRecipeBookException
+    public class UnauthorizedException : MyRecipeBookException
     {
-        public RefreshTokenNotFoundException() : base(ResourceMessagesException.EXPIRED_SESSION)
+        public UnauthorizedException(string message) : base(message)
         {
         }
 

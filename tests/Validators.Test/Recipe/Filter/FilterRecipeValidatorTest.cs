@@ -30,7 +30,7 @@ namespace Validators.Test.Recipe.Filter
             var result = validator.Validate(request);
 
             result?.IsValid.Should().BeFalse();
-            result?.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.COOKING_TIME_NOT_SUPPORTED));
+            result?.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.COOKING_TIME_NOT_SUPPORTED));
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Validators.Test.Recipe.Filter
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DIFFICULTY_LEVEL_NOT_SUPPORTED));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.DIFFICULTY_LEVEL_NOT_SUPPORTED));
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Validators.Test.Recipe.Filter
             var result = validator.Validate(request);
 
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesExeption.DISH_TYPE_NOT_SUPPORTED));
+            result.Errors.Should().ContainSingle().And.Contain(error => error.ErrorMessage.Equals(ResourceMessagesException.DISH_TYPE_NOT_SUPPORTED));
         }
     }
 }

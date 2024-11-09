@@ -45,7 +45,7 @@ namespace UseCases.Test.Login.DoLogin
             };
 
             await act.Should().ThrowAsync<InvalidLoginException>()
-                .Where(error => error.Message.Equals(ResourceMessagesExeption.EMAIL_OR_PASSWORD_INVALID));
+                .Where(error => error.Message.Equals(ResourceMessagesException.EMAIL_OR_PASSWORD_INVALID));
         }
 
         public static DoLoginUseCase CreateUseCase(MyRecipeBook.Domain.Entities.User? user = null)

@@ -59,7 +59,7 @@ namespace WebAPI.Test.Recipe.GetById
 
             var errors = responseData.RootElement.GetProperty("errors").EnumerateArray();
 
-            var expectedMessage = ResourceMessagesExeption.ResourceManager.GetString("RECIPE_NOT_FOUND", new CultureInfo(culture));
+            var expectedMessage = ResourceMessagesException.ResourceManager.GetString("RECIPE_NOT_FOUND", new CultureInfo(culture));
 
             errors.Should().HaveCount(1).And.Contain(c => c.GetString()!.Equals(expectedMessage));
         }
