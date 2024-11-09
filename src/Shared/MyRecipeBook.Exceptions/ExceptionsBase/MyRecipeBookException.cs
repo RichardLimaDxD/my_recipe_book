@@ -1,4 +1,6 @@
-﻿namespace MyRecipeBook.Exceptions.ExceptionsBase
+﻿using System.Net;
+
+namespace MyRecipeBook.Exceptions.ExceptionsBase
 {
     public class MyRecipeBookException : SystemException
     {
